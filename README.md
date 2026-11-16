@@ -52,12 +52,12 @@ round score = time taken + distance penalty
 
 **Option 1: open the file**
 
-Double-click `wonderland-game.html`. It runs in any modern browser.
+Double-click `index.html`. It runs in any modern browser, offline.
 
 **Option 2: local server (Laragon/XAMPP)**
 
 ```
-http://localhost/mini-game-v1/wonderland-game.html
+http://localhost/mini-game-v1/
 ```
 
 **Option 3: GitHub Pages**
@@ -65,7 +65,7 @@ http://localhost/mini-game-v1/wonderland-game.html
 Enable Pages in the repo settings (branch `main`, root folder), then visit:
 
 ```
-https://lanza00.github.io/mini-game-v1/wonderland-game.html
+https://lanza00.github.io/mini-game-v1/
 ```
 
 > 💡 Best on a laptop connected to a TV or projector, so the team can see the screen while the player can't.
@@ -81,7 +81,7 @@ https://lanza00.github.io/mini-game-v1/wonderland-game.html
 
 ## ⚙️ Customising
 
-Game settings are constants near the top of the script in `wonderland-game.html`:
+Game settings are constants near the top of the script in `index.html`:
 
 ```js
 const ROUNDS = 3, TEAMS = 1, TIME_LIMIT = 60, PEN_PER_BODY = 25, TOL = 0.04;
@@ -101,7 +101,7 @@ To add a character, add its images to `DATA` and an entry to `META` (name, item,
 
 ```
 mini-game-v1/
-├── wonderland-game.html   # The entire game
+├── index.html             # The entire game
 └── README.md
 ```
 

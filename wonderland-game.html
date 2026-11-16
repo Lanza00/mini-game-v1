@@ -33,6 +33,7 @@ th,td{padding:.35em .9em;border-bottom:1px solid rgba(255,255,255,.18)}
 th{color:#f5c542;font-weight:normal;font-style:italic}
 td.n{text-align:left}td.v{text-align:right;font-family:'Courier New',monospace}
 tr.first td{color:#ffe27a;font-weight:bold;font-size:1.15em}
+.total{font:bold clamp(48px,9vw,150px)/1.05 'Courier New',monospace;color:#f5c542;text-shadow:0 0 30px rgba(245,197,66,.5)}
 .big{font-size:clamp(70px,16vw,260px);font-weight:bold;color:#f5c542;text-shadow:0 0 40px rgba(245,197,66,.6)}
 .rate{font-size:clamp(30px,4.4vw,70px);font-weight:bold;margin:.1em 0}
 .good{color:#8dffb8}.mid{color:#ffe27a}.bad{color:#ff9aa8}
@@ -65,10 +66,11 @@ const META={
  cat:{name:'Cheshire Cat',item:'ekor',start:[210,140]},
  queen:{name:'Queen of Hearts',item:'mahkota',start:[-300,210]}
 };
-const ROUNDS=3, TEAMS=3, TIME_LIMIT=60, PEN_PER_BODY=25, TOL=0.04;
+const ROUNDS=3, TEAMS=1, TIME_LIMIT=60, PEN_PER_BODY=25, TOL=0.04;
 const IMG={};
 let teams=['Team 1','Team 2','Team 3'], sens=1.5;
 try{const s=JSON.parse(localStorage.getItem('wl_cfg')||'null');if(s){teams=s.teams||teams;sens=s.sens||sens}}catch(e){}
+teams=[(teams[0]||'Team 1')];
 
 let state='loading', turn=0, pos={x:0,y:0}, t0=0, elapsed=0, snap=null, last=null;
 let results=[...Array(TEAMS)].map(()=>Array(ROUNDS).fill(null));
@@ -142,7 +144,8 @@ const esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&qu
 function showSetup(){
  state='setup';hide();setBar('');$('hm').textContent='';$('timer').textContent='0.00';unlock();
  show(`<h1>Wonderland<br>Letak Betul-Betul!</h1>
- <p>${ROUNDS} round · ${TEAMS} team · pemain tak tengok skrin, team bagi arahan</p>
+ <p>${ROUNDS} round · pemain tak tengok skrin, team bagi arahan</p>
+ <p style="margin-bottom:0">Nama team</p>
  <div class="row">${teams.map((n,i)=>`<input type="text" id="tn${i}" value="${esc(n)}" maxlength="20">`).join('')}</div>
  <p>Kepekaan mouse: <b id="sv">${sens.toFixed(1)}</b><br><input type="range" id="sens" min="0.5" max="3" step="0.1" value="${sens}"></p>
  <div class="row"><button id="go">Mula Game <span class="kbd">Space</span></button></div>
@@ -188,18 +191,19 @@ function showResult(r,rel){
  show(`<div class="rate ${cls}">${txt}</div>
  <h2>${esc(teams[team()])} · ${META[key()].name}</h2>
  <table><tr><td class="n">Masa</td><td class="v">${r.time.toFixed(2)}s</td></tr><tr><td class="n">Penalti jarak</td><td class="v">+${r.pen.toFixed(2)}s</td></tr><tr class="first"><td class="n">Skor round ni</td><td class="v">${r.total.toFixed(2)}s</td></tr></table>
- ${board()}
+ <p>Jumlah setakat ni: <b style="color:#f5c542">${totals()[0].total.toFixed(2)}s</b> (${totals()[0].n}/${ROUNDS} round)</p>
  <div class="row"><button id="nx">${last?'Keputusan Akhir':'Seterusnya'} <span class="kbd">Space</span></button><button class="ghost" id="rd">Ulang giliran <span class="kbd">R</span></button></div>`,true);
  $('nx').onclick=next;$('rd').onclick=redo;
 }
 function redo(){if(state!=='result')return;results[team()][round()]=null;showReady()}
 function next(){if(state!=='result')return;snap=null;turn++;if(turn>=ROUNDS*TEAMS)showFinal();else showReady()}
 function showFinal(){
- state='final';setBar('');$('hm').textContent='Keputusan Akhir';$('timer').textContent='';
- const t=totals().sort((a,b)=>a.total-b.total),medals=['🥇','🥈','🥉'];
- show(`<h1>Tahniah, ${esc(t[0].name)}! 🎉</h1><p>Masa paling singkat menang</p>
- <table><tr><th></th><th>Team</th>${ORDER.map(k=>`<th>${META[k].name}</th>`).join('')}<th>Jumlah</th></tr>
- ${t.map((x,k)=>`<tr class="${k==0?'first':''}"><td>${medals[k]||''}</td><td class="n">${esc(x.name)}</td>${results[x.i].map(r=>`<td class="v">${r?r.total.toFixed(2):'-'}</td>`).join('')}<td class="v">${x.total.toFixed(2)}s</td></tr>`).join('')}</table>
+ state='final';setBar('');$('hm').textContent='Selesai';$('timer').textContent='';
+ const tot=totals()[0].total;
+ show(`<h1>Selesai! 🎉</h1><h2>${esc(teams[0])}</h2>
+ <table><tr><th>Round</th><th>Watak</th><th>Masa</th><th>Penalti</th><th>Skor</th></tr>
+ ${results[0].map((r,k)=>`<tr><td>${k+1}</td><td class="n">${META[ORDER[k]].name}</td><td class="v">${r.time.toFixed(2)}s</td><td class="v">+${r.pen.toFixed(2)}s</td><td class="v">${r.total.toFixed(2)}s</td></tr>`).join('')}</table>
+ <p style="margin:.2em 0 0">Jumlah masa</p><div class="total">${tot.toFixed(2)}s</div>
  <div class="row"><button id="again">Main Semula <span class="kbd">Space</span></button></div>`);
  beep(660,.2);setTimeout(()=>beep(880,.2),200);setTimeout(()=>beep(1100,.35),400);
  $('again').onclick=showSetup;

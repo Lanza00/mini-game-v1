@@ -1,5 +1,11 @@
 # 🎩 Wonderland – Letak Betul-Betul!
 
+<p align="center">
+  <a href="https://lanza00.github.io/mini-game-v1/">
+    <img alt="Play now" src="https://img.shields.io/badge/%E2%96%B6%20%20MAIN%20SEKARANG-Play%20Now-f5c542?style=for-the-badge&labelColor=35205c">
+  </a>
+</p>
+
 A fun, party-style mini game set in Alice in Wonderland. One player puts a missing item (a hat, a tail, a crown...) back on a character **without looking at the screen**, while their team guides them with spoken directions: *kiri / kanan / atas / bawah*.
 
 The whole game is a single self-contained HTML file. There's no build step, no dependencies, and no server needed.

@@ -10,6 +10,8 @@ A fun, party-style mini game set in Alice in Wonderland. One player puts a missi
 
 The whole game is a single self-contained HTML file. There's no build step, no dependencies, and no server needed.
 
+> © 2026 Aznal Anas and Azammier A'laa. All rights reserved. Shared for portfolio viewing only; see [License](#-license).
+
 ## 🎮 How to Play
 
 1. Open the game and enter your team name.
@@ -87,6 +89,8 @@ https://lanza00.github.io/mini-game-v1/
 
 ## ⚙️ Customising
 
+*Notes for the authors' own reference. Reuse requires permission (see [License](#-license)).*
+
 Game settings are constants near the top of the script in `index.html`:
 
 ```js
@@ -113,4 +117,6 @@ mini-game-v1/
 
 ## 📄 License
 
-No license has been chosen yet. Add a `LICENSE` file (for example MIT) if you want others to reuse the game.
+Copyright (c) 2026 Aznal Anas and Azammier A'laa. **All rights reserved.**
+
+This code is public for portfolio viewing and playing only. You may not copy, reuse, modify, redistribute or publish it, in whole or in part, without written permission from the authors. See [LICENSE](LICENSE) for the full terms.
